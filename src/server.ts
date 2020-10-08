@@ -8,7 +8,7 @@ export function makeApp(db: Db): core.Express {
   const app = express();
   const jsonParser = bodyParser.json();
 
-  app.get("/", async(request: Request, response, Response) => {
+  app.get("/", async(request: Request, response: Response) => {
     response.json("coucou welcome in the best site ever if you want quit give me 5$")
   });
 
