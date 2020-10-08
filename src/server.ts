@@ -8,11 +8,17 @@ export function makeApp(db: Db): core.Express {
   const app = express();
   const jsonParser = bodyParser.json();
 
+  app.get("/", async(request: Request, response, Response) => {
+    response.json("coucou welcome in the best site ever if you want quit give me 5$")
+  });
+
+  //********************************* GET Platforms *************************************/
   app.get("/platforms", async (request: Request, response: Response) => {
     const platformList = await db.collection("platforms").find().toArray();
     response.json(platformList);
   });
-
+  //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  //********************************* GET Slug *************************************/
   app.get("/platforms/:slug", async (request: Request, response: Response) => {
     const platform = await db
       .collection("platforms")
@@ -24,7 +30,8 @@ export function makeApp(db: Db): core.Express {
       response.status(404).end();
     }
   });
-
+  //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  //********************************* POST Platforms *************************************/
   app.post(
     "/platforms",
     jsonParser,
@@ -62,7 +69,8 @@ export function makeApp(db: Db): core.Express {
         });
     }
   );
-
+  //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  //********************************* PUT Platforms *************************************/
   app.put(
     "/platforms/:slug",
     jsonParser,
@@ -92,7 +100,8 @@ export function makeApp(db: Db): core.Express {
       }
     }
   );
-
+  //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  //********************************* DELETE Platforms *************************************/
   app.delete(
     "/platforms/:slug",
     jsonParser,
@@ -109,7 +118,8 @@ export function makeApp(db: Db): core.Express {
       }
     }
   );
-
+  //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  //********************************* GET Platforms/Slug/Games *************************************/
   app.get(
     "/platforms/:slug/games",
     async (request: Request, response: Response) => {
@@ -120,12 +130,14 @@ export function makeApp(db: Db): core.Express {
       response.json(games);
     }
   );
-
+  //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  //********************************* GET Games *************************************/
   app.get("/games", async (request: Request, response: Response) => {
     const games = await db.collection("games").find().toArray();
     response.json(games);
   });
-
+  //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  //********************************* GET Games/slug *************************************/
   app.get("/games/:slug", async (request: Request, response: Response) => {
     const game = await db.collection("games").findOne({
       slug: request.params.slug,
@@ -136,7 +148,8 @@ export function makeApp(db: Db): core.Express {
       response.status(404).end();
     }
   });
-
+  //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  //********************************* POST Games *************************************/
   app.post(
     "/games",
     jsonParser,
@@ -183,7 +196,8 @@ export function makeApp(db: Db): core.Express {
       }
     }
   );
-
+  //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  //********************************* DELETE Games/slug *************************************/
   app.delete("/games/:slug", async (request: Request, response: Response) => {
     const game = await db
       .collection("games")
@@ -196,7 +210,8 @@ export function makeApp(db: Db): core.Express {
       response.status(404).end();
     }
   });
-
+  //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  //********************************* PUT Games/slug *************************************/
   app.put(
     "/games/:slug",
     jsonParser,
@@ -226,7 +241,7 @@ export function makeApp(db: Db): core.Express {
       }
     }
   );
-
+  //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   // This should be the last call to `app` in this file
   app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
     console.error(error);
